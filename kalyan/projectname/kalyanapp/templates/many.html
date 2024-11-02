@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Buttons</title>
+  <style>
+    /* Body styling */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      gap: 10px;
+    }
+
+    /* Button container */
+    .social-button {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Facebook button */
+    .facebook {
+      background-color: #1877f2;
+    }
+    .facebook:hover {
+      background-color: #145dbf;
+    }
+
+    /* Twitter button */
+    .twitter {
+      background-color: #1da1f2;
+    }
+    .twitter:hover {
+      background-color: #0d95e8;
+    }
+
+    /* Instagram button */
+    .instagram {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
+    .instagram:hover {
+      filter: brightness(1.1);
+    }
+
+    /* WhatsApp button */
+    .whatsapp {
+      background-color: #25d366;
+    }
+    .whatsapp:hover {
+      background-color: #1ebe5d;
+    }
+
+    /* Icon styling */
+    .icon {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Facebook Button -->
+  <button onclick="window.location.href='{% url 'facebook' %}'" class="social-button facebook">
+    <span class="icon">📘</span>
+    Facebook
+  </button>
+
+  <!-- Twitter Button -->
+  <button onclick="window.location.href='{% url 'twitter' %}'" class="social-button twitter">
+    <span class="icon">🐦</span>
+    Twitter
+  </button>
+
+  <!-- Instagram Button -->
+  <button onclick="window.location.href='{% url 'instagram' %}'" class="social-button instagram">
+    <span class="icon">📸</span>
+    Instagram
+  </button>
+
+  <!-- WhatsApp Button -->
+  <button onclick="window.location.href='{% url 'whatsapp' %}'" class="social-button whatsapp">
+    <span class="icon">💬</span>
+    WhatsApp
+  </button>
+
+</body>
+
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicTacToe</title>
+    <h2>WELCOME TO TIC TAC TOE GAME:
+        <br>------------------------------------------------------</h2> 
+      
+</head>
+<body>
+    
+    
+    <input type="button" id='but1' onclick="changeValue(this)" value="" >
+    <input type="button" id='but2' onclick="changeValue(this)" > 
+    <input type="button" id='but3' onclick="changeValue(this)" > <br>  
+    <input type="button" id='but4' onclick="changeValue(this)" >    
+    <input type="button" id='but5' onclick="changeValue(this)" >    
+    <input type="button" id='but6' onclick="changeValue(this)" ><br>
+    <input type="button" id='but7' onclick="changeValue(this)" >    
+    <input type="button" id='but8' onclick="changeValue(this)" >    
+    <input type="button" id='but9' onclick="changeValue(this)">
+
+</body>
+<style>
+    body{
+        align-items: center;
+        text-align: center;
+        margin-bottom: 40px;
+        overflow: hidden;
+    }
+        
+    
+    input{
+        height: 185px;
+        width: 185px;
+        font-size: 100px;
+        background-color: green;
+        color:white;
+    }
+ #but1,#but2,#but3,#but4,#but5,#but6,#but7,#but8,#but9{
+    animation-name: kalyan;
+        animation-duration: 5s;
+        animation-iteration-count: 1;
+    }
+    @keyframes kalyan{
+        from{
+            transform: scale(0.1);
+        }
+        to{
+            transform: scale(1.0)
+        }
+ }
+
+   
+</style>
+
+<script>
+    // confirm("lets start the game")
+    let i = 1; 
+    
+
+    function changeValue(button) {
+        switch(i) {
+            case 1: case 3: case 5: case 7: case 9:
+                if(button.value==""){
+                  button.value = "*";
+                }
+            
+                break;
+            case 2: case 4: case 6: case 8:
+            if(button.value==""){
+                  button.value = "O";
+                }
+                
+                break;
+            default:
+                button.value = "";
+                break;
+            
+
+        }
+        var b1=document.getElementById("but1").value;
+    var b2=document.getElementById("but2").value;
+    var b3=document.getElementById("but3").value;
+    var b4=document.getElementById("but4").value;
+    var b5=document.getElementById("but5").value;
+    var b6=document.getElementById("but6").value;
+    var b7=document.getElementById("but7").value;
+    var b8=document.getElementById("but8").value;
+    var b9=document.getElementById("but9").value;
+        if(b1==="*" && b2==="*" && b3==="*"){
+            setTimeout(() =>{
+        
+        confirm("Player-* win")
+        location.reload();},1000)
+        document.getElementById("but1").style.backgroundColor = "red";
+            document.getElementById("but2").style.backgroundColor = "red";
+             document.getElementById("but3").style.backgroundColor = "red";
+       
+        }
+        else if(b1==="O" && b2==="O" && b3==="O"){
+            setTimeout(() =>{
+        
+        confirm("Player-O win")
+        location.reload();},1000)
+        document.getElementById("but1").style.backgroundColor = "red";
+            document.getElementById("but2").style.backgroundColor = "red";
+             document.getElementById("but3").style.backgroundColor = "red";
+        }
+        else if(b1==="*" && b5==="*" && b9==="*"){
+            setTimeout(() =>{
+        
+        confirm("Player-* win")
+        location.reload();},1000)
+        document.getElementById("but1").style.backgroundColor = "red";
+            document.getElementById("but5").style.backgroundColor = "red";
+             document.getElementById("but9").style.backgroundColor = "red";
+        }
+        else if(b1==="O" && b5==="O" && b9==="O"){
+            setTimeout(() =>{
+        
+        confirm("Player-O win")
+        location.reload();},1000)
+        document.getElementById("but1").style.backgroundColor = "red";
+            document.getElementById("but5").style.backgroundColor = "red";
+             document.getElementById("but9").style.backgroundColor = "red";
+        }
+        else if(b4==="*" && b5==="*" && b6==="*"){
+            setTimeout(() =>{
+        
+        confirm("Player-* win")
+        location.reload();},1000)
+        document.getElementById("but4").style.backgroundColor = "red";
+            document.getElementById("but5").style.backgroundColor = "red";
+             document.getElementById("but6").style.backgroundColor = "red";
+        }
+        else if (b4==="O" && b5==="O" && b6==="O"){
+            setTimeout(() =>{
+        
+        confirm("Player-O win")
+        location.reload();},1000)
+        document.getElementById("but4").style.backgroundColor = "red";
+            document.getElementById("but5").style.backgroundColor = "red";
+             document.getElementById("but6").style.backgroundColor = "red";
+        }
+        else if(b7==="*" && b8==="*" && b9==="*"){
+            setTimeout(() =>{
+        
+        confirm("Player-* win")
+        location.reload();},1000)
+        document.getElementById("but7").style.backgroundColor = "red";
+            document.getElementById("but8").style.backgroundColor = "red";
+             document.getElementById("but9").style.backgroundColor = "red";
+        }
+        else if (b7==="O" && b8==="O" && b9==="O"){
+            setTimeout(() =>{
+        
+        confirm("Player-O win")
+        location.reload();},1000)
+        document.getElementById("but7").style.backgroundColor = "red";
+            document.getElementById("but8").style.backgroundColor = "red";
+             document.getElementById("but9").style.backgroundColor = "red";
+        }
+        else if(b1==="*" && b4==="*" && b7==="*"){
+            setTimeout(() =>{
+        
+        confirm("Player-* win")
+        location.reload();},1000)
+        document.getElementById("but1").style.backgroundColor = "red";
+            document.getElementById("but4").style.backgroundColor = "red";
+             document.getElementById("but7").style.backgroundColor = "red";
+        }
+        else if(b1==="O" && b4==="O" && b7==="O"){
+            setTimeout(() =>{
+        
+        confirm("Player-O win")
+        location.reload();},1000)
+        document.getElementById("but1").style.backgroundColor = "red";
+            document.getElementById("but4").style.backgroundColor = "red";
+             document.getElementById("but7").style.backgroundColor = "red";
+        }
+        else if(b2==="*" && b5==="*" && b8==="*"){
+            setTimeout(() =>{
+        
+        confirm("Player-* win")
+        location.reload();},1000)
+        document.getElementById("but2").style.backgroundColor = "red";
+            document.getElementById("but5").style.backgroundColor = "red";
+             document.getElementById("but8").style.backgroundColor = "red";
+        }
+        else if(b2==="O" && b5==="O" && b8==="O"){
+            setTimeout(() =>{
+        
+        confirm("Player-O win")
+        location.reload();},1000)
+        document.getElementById("but2").style.backgroundColor = "red";
+            document.getElementById("but5").style.backgroundColor = "red";
+             document.getElementById("but8").style.backgroundColor = "red";
+        }
+        else if(b3==="*" && b6==="*" && b9==="*"){
+            setTimeout(() =>{
+        
+        confirm("Player-* win")
+        location.reload();},1000)
+        document.getElementById("but3").style.backgroundColor = "red";
+            document.getElementById("but6").style.backgroundColor = "red";
+             document.getElementById("but9").style.backgroundColor = "red";
+        }
+        else if(b3==="O" && b6==="O" && b9==="O"){
+            setTimeout(() =>{
+        
+        confirm("Player-O win")
+        location.reload();},1000)
+        document.getElementById("but3").style.backgroundColor = "red";
+            document.getElementById("but6").style.backgroundColor = "red";
+             document.getElementById("but9").style.backgroundColor = "red";
+        }
+        else if(b3==="*" && b5==="*" && b7==="*"){
+            setTimeout(() =>{
+        
+        confirm("Player-* win")
+        location.reload();},1000)
+        document.getElementById("but3").style.backgroundColor = "red";
+            document.getElementById("but5").style.backgroundColor = "red";
+             document.getElementById("but7").style.backgroundColor = "red";
+        }
+        else if(b3==="O" && b5==="O" && b7==="O"){
+            setTimeout(() =>{
+        
+        confirm("Player-O win")
+        location.reload();},1000)
+        document.getElementById("but3").style.backgroundColor = "red";
+            document.getElementById("but5").style.backgroundColor = "red";
+             document.getElementById("but7").style.backgroundColor = "red";
+        }
+        else if(!(b1==="*" && b2==="*" && b3==="*") && !(b1==="O" && b2==="O" && b3==="O") && !(b1==="*" && b5==="*" && b9==="*") && !(b1==="O" && b5==="O" && b9==="O") && !(b4==="*" && b5==="*" && b6==="*") && !(b4==="O" && b5==="O" && b6==="O") && !(b7==="*" && b8==="*" && b9==="*") && !(b7==="O" && b8==="O" && b9==="O") && !(b1==="*" && b4==="*" && b7==="*") && !(b1==="O" && b4==="O" && b7==="O") && !(b2==="*" && b5==="*" && b8==="*") && !(b2==="O" && b5==="O" && b8==="O") && !(b3==="*" && b6==="*" && b9==="*") && !(b3==="O" && b6==="O" && b9==="O") && !(b3==="*" && b5==="*" && b7==="*") && !(b3==="O" && b5==="O" && b7==="O") && b1!="" && b2!="" && b3!="" && b4!="" && b5!="" && b6!="" && b7!="" && b8!="" && b9!=""){
+           confirm("match draw")
+           location.reload();
+        }
+        i++; 
+
+    }
+    
+</script>
+</html>
