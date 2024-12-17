@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            border: 2px solid black;
+            width: 540px;
+            height: 635px;
+            margin: 15px auto;
+            padding-top: 20px;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 1.6em;
+            color: black;
+            cursor: pointer;
+            transition: color 0.3s;
+            margin-left: 350px;
+            margin-top: 27px;
+        }
+
+        .back-arrow:hover {
+            color: #1565c0;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #6a1b9a, #8e24aa, #ab47bc);
+            color: #fff;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            padding: 10px;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .history-button {
+            position: absolute;
+            top: 45px;
+            right: 390px;
+
+            font-size: 1.2em;
+            color: black;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .history-button:hover {
+            color: #1565c0;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            width: 450px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin-top: 20px;
+        }
+        .menu {
+      width: calc(61.5% - 200px); /* Adjust width to align with main content */
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      background-color: #ffffff;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      position: fixed;
+      bottom: 0;
+      left: 345px;
+      right: 15px;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 50px;
+    
+    }
+
+    .menu-item {
+      color: #6a1b9a;
+      font-size: 1.2em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .menu-item:hover {
+      color: #d81b60;
+    }
+
+    .menu-item i {
+      margin-bottom: 5px; /* Add spacing between icon and label */
+    }
+
+        .search-bar {
+            flex: 1;
+            padding: 10px 35px 10px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar:focus {
+            border-color: #1e88e5;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            font-size: 1.2em;
+            color: #888;
+        }
+
+        .search-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #1e88e5;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #1565c0;
+        }
+
+        .suggestions, .history {
+            width: 450px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 100px;
+            z-index: 10;
+            display: none;
+        }
+
+        .suggestion-item, .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .suggestion-item:last-child, .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover, .history-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Arrow -->
+    <span class="back-arrow" onclick="window.location.href='{% url 'loginsuccess' %}'">
+        <i class="fas fa-arrow-left"></i>
+    </span>
+
+    <!-- Header -->
+    <header class="header">
+        Search
+        <!-- History Button -->
+        <span class="history-button" onclick="toggleHistory()">
+            <i class="fas fa-history"></i>
+        </span>
+    </header>
+
+    <!-- Search Bar with Icon -->
+    <div class="search-container">
+        <input type="text" placeholder="Search" class="search-bar" id="search-bar" oninput="showSuggestions()">
+        <i class="fas fa-search search-icon"></i>
+    </div>
+
+    <!-- Suggestions Dropdown -->
+    <div class="suggestions" id="suggestions">
+        <!-- Suggestions will appear here -->
+    </div>
+
+    <!-- Search History -->
+    <div class="history" id="history">
+        <!-- History items will appear here -->
+    </div><br><br><br><br>
+
+    <!-- Search Button -->
+    <button class="search-button" onclick="performSearch()">Search</button>
+    <nav class="menu">
+        <div class="menu-item" >
+          <i class="fas fa-home" onclick="window.location.href='{% url 'loginsuccess' %}'"></i> Home
+        </div>
+        <div class="menu-item">
+          <i class="fas fa-search" onclick="window.location.href='{% url 'search' %}'"></i> Search
+        </div>
+        <div class="menu-item">
+          <i class="fas fa-bell" onclick="window.location.href='{% url 'notifications' %}'"></i> Notifications
+        </div>
+        <div class="menu-item">
+          <i class="fas fa-user" onclick="window.location.href='{% url 'profile' %}'"></i> Profile
+        </div>
+      </nav>
+
+    <script>
+        const searchBar = document.getElementById('search-bar');
+        const suggestions = document.getElementById('suggestions');
+        const history = document.getElementById('history');
+
+        const recentSearches = [];
+        const suggestionList = ["Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape"];
+
+        function showSuggestions() {
+            const query = searchBar.value.toLowerCase();
+            if (query) {
+                const filteredSuggestions = suggestionList.filter(item => item.toLowerCase().includes(query));
+                suggestions.innerHTML = filteredSuggestions
+                    .map(item => `<div class="suggestion-item" onclick="selectSuggestion('${item}')">${item}</div>`)
+                    .join('');
+                suggestions.style.display = 'block';
+            } else {
+                suggestions.style.display = 'none';
+            }
+        }
+
+        function selectSuggestion(item) {
+            searchBar.value = item;
+            suggestions.style.display = 'none';
+        }
+
+        function toggleHistory() {
+            if (history.style.display === 'block') {
+                history.style.display = 'none';
+            } else {
+                const historyItems = recentSearches
+                    .map(item => `<div class="history-item">${item}</div>`)
+                    .join('');
+                history.innerHTML = historyItems || "<div class='history-item'>No recent searches</div>";
+                history.style.display = 'block';
+            }
+        }
+
+        function performSearch() {
+            const query = searchBar.value.trim();
+            if (query && !recentSearches.includes(query)) {
+                recentSearches.unshift(query);
+                if (recentSearches.length > 5) recentSearches.pop(); // Limit to 5 items
+            }
+            alert(`Search performed for: ${query}`);
+        }
+    </script>
+</body>
+</html>

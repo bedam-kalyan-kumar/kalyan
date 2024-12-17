@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram-like Page</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      /* margin-left: 10px; */
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0 auto;
+      max-width: 550px;
+    }
+
+    /* Top Navigation Bar */
+    .top-nav {
+      width: 100%;
+      padding: 10px 0;
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #6a1b9a;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding-right: 15px;
+    }
+
+    /* Stories Section */
+    .stories-section {
+      display: flex;
+      overflow-x: auto;
+      padding: 10px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .story {
+      margin-right: 10px;
+      text-align: center;
+    }
+
+    .story img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #6a1b9a;
+    }
+
+    .story .name {
+      font-size: 0.8em;
+      margin-top: 5px;
+    }
+
+    /* Post Section */
+    .post {
+      background-color: #ffffff;
+      margin: 15px 0;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .post-header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .post-header .username {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .post-content {
+      margin: 10px 0;
+    }
+
+    .post-content img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding: 10px;
+      border-bottom: 1px solid #333;
+    }
+
+    .post-actions i {
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #6a1b9a;
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    .post-actions i:hover {
+      color: #d81b60;
+      transform: scale(1.1);
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #ffffff;
+      border-top: 1px solid #ddd;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+
+    .bottom-nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #6a1b9a;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+
+    .bottom-nav .nav-item:hover {
+      color: #d81b60;
+    }
+
+    .bottom-nav .nav-item i {
+      margin-bottom: 5px;
+    }
+   .menu {
+      width: calc(61.5% - 200px); /* Adjust width to align with main content */
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      background-color: #ffffff;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      position: fixed;
+      bottom: 0;
+      left: 345px;
+      right: 15px;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 50px;
+    
+    }
+
+    .menu-item {
+      color: #6a1b9a;
+      font-size: 1.2em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .menu-item:hover {
+      color: #d81b60;
+    }
+
+    .menu-item i {
+      margin-bottom: 5px; /* Add spacing between icon and label */
+    }
+    .middle{
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="middle">
+  <!-- Top Navigation -->
+  <div class="top-nav">
+    <i class="fas fa-bolt"></i> SPRINT
+    <i class="fas fa-paper-plane" style="float: right; cursor: pointer;" onclick="window.location.href='{% url 'messages' %}'"></i> <!-- Message icon -->
+  </div>
+
+  <!-- Stories Section -->
+  <div class="stories-section">
+    <div class="story">
+      <section id="stories">
+        <div>
+            {% if image_url %}
+                <img src="{{ image_url }}" alt="Profile Photo" style="width: 60px; height: 60px; border-radius: 50%;">
+            {% else %}
+                <p>No profile photo available.</p>
+            {% endif %}
+            <h5>{{ username }}</h5>
+        </div>
+    </section>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <div class="story">
+      <img src="https://via.placeholder.com/50" alt="User 2">
+      <div class="name">Kalyan</div>
+    </div>
+    <!-- Add more stories as needed -->
+  </div>
+
+  <!-- Post Section -->
+  <div class="post">
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+        <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div><br>
+    <div class="post-header">
+      <img src="https://via.placeholder.com/40" alt="User Avatar">
+      <div class="username">User Name</div>
+    </div>
+    <div class="post-content">
+      <img src="https://via.placeholder.com/400x300" alt="Post Image">
+      <p>Here is an example caption for the post.</p>
+    </div>
+    <div class="post-actions">
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-comment"></i>
+      <i class="fas fa-share"></i>
+    </div>
+  </div>
+  
+</div>
+  <!-- Bottom Navigation -->
+  <nav class="menu">
+    <div class="menu-item" >
+      <i class="fas fa-home" onclick="window.location.href='{% url 'loginsuccess' %}'"></i> Home
+    </div>
+    <div class="menu-item">
+      <i class="fas fa-search" onclick="window.location.href='{% url 'search' %}'"></i> Search
+    </div>
+    <div class="menu-item">
+      <i class="fas fa-bell" onclick="window.location.href='{% url 'notifications' %}'"></i> Notifications
+    </div>
+    <div class="menu-item">
+      <i class="fas fa-user" onclick="window.location.href='{% url 'profile' %}'"></i> Profile
+    </div>
+  </nav>
+
+</body>
+<script>
+  document.querySelectorAll('.post').forEach((post, index) => {
+    // Initialize variables for like count and state
+    let likeCount = 0;
+    let isLiked = false;
+
+    // Select action buttons
+    const likeButton = post.querySelector('.fa-heart');
+    const commentButton = post.querySelector('.fa-comment');
+    const shareButton = post.querySelector('.fa-share');
+
+    // Create and append the like counter
+    const likeCounter = document.createElement('div');
+    likeCounter.className = 'like-counter';
+    likeCounter.style.fontSize = '0.9em';
+    likeCounter.style.color = '#666';
+    likeCounter.style.marginTop = '5px';
+    likeCounter.textContent = `${likeCount} Likes`;
+    likeButton.parentNode.appendChild(likeCounter);
+
+    // Like button functionality
+    likeButton.addEventListener('click', () => {
+      if (!isLiked) {
+        likeCount++;
+        likeButton.style.color = 'red';
+        isLiked = true;
+      } else {
+        likeCount--;
+        likeButton.style.color = '';
+        isLiked = false;
+      }
+      likeCounter.textContent = `${likeCount} Likes`;
+    });
+
+    // Comment button functionality
+    commentButton.addEventListener('click', () => {
+      let commentSection = post.querySelector('.comment-section');
+      if (!commentSection) {
+        // Create comment section dynamically
+        commentSection = document.createElement('div');
+        commentSection.className = 'comment-section';
+        commentSection.style.marginTop = '10px';
+
+        const commentInput = document.createElement('input');
+        commentInput.type = 'text';
+        commentInput.placeholder = 'Add a comment...';
+        commentInput.style.width = '100%';
+        commentInput.style.padding = '5px';
+        commentInput.style.marginTop = '5px';
+
+        const commentButton = document.createElement('button');
+        commentButton.textContent = 'Post';
+        commentButton.style.marginTop = '5px';
+        commentButton.style.display = 'block';
+
+        const commentsContainer = document.createElement('div');
+        commentsContainer.className = 'comments-container';
+        commentsContainer.style.marginTop = '10px';
+
+        commentButton.addEventListener('click', () => {
+          if (commentInput.value.trim() !== '') {
+            const newComment = document.createElement('div');
+            newComment.textContent = commentInput.value;
+            newComment.style.marginTop = '5px';
+            commentsContainer.appendChild(newComment);
+            commentInput.value = '';
+          }
+        });
+
+        commentSection.appendChild(commentInput);
+        commentSection.appendChild(commentButton);
+        commentSection.appendChild(commentsContainer);
+        post.appendChild(commentSection);
+      }
+    });
+
+    // Share button functionality
+    shareButton.addEventListener('click', () => {
+      alert('Post shared!');
+    });
+  });
+</script>
+
+
+</body>
+</html>
+

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            overflow: hidden;
+        }
+
+        .notification-container {
+            width: 100%;
+            max-width: 540px;
+            height: 700px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .notification-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            color: #1e88e5;
+            padding: 15px;
+            background-color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .notification-header .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            font-size: 1.5em;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .notification-header .badge {
+            position: absolute;
+            right: 15px;
+            background-color: #e53935;
+            color: white;
+            font-size: 0.9em;
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .notification-info {
+            flex: 1;
+        }
+
+        .notification-info .name {
+            font-weight: bold;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .notification-info .message {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .notification-info .time {
+            font-size: 0.8em;
+            color: #aaa;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            font-size: 1.2em;
+            cursor: pointer;
+            color: #888;
+            padding: 5px;
+            border-radius: 50%;
+            transition: color 0.3s;
+        }
+
+        .action-btn:hover {
+            color: #1e88e5;
+        }
+
+        .snackbar {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            padding: 10px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .snackbar.show {
+            visibility: visible;
+            animation: fadeInOut 3s;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: 1; }
+        }
+
+        .mark-read-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            background-color: #1e88e5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .mark-read-btn:hover {
+            background-color: #1565c0;
+        }
+
+        .muted {
+            opacity: 0.6;
+        }
+        .menu {
+      width: calc(61.5% - 200px); /* Adjust width to align with main content */
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      background-color: #ffffff;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      position: fixed;
+      bottom: 0;
+      left: 345px;
+      right: 15px;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 50px;
+    
+    }
+
+    .menu-item {
+      color: #6a1b9a;
+      font-size: 1.2em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .menu-item:hover {
+      color: #d81b60;
+    }
+
+    .menu-item i {
+      margin-bottom: 5px; /* Add spacing between icon and label */
+    }
+    </style>
+</head>
+<body>
+    <div class="notification-container" id="notification-container">
+        <div class="notification-header">
+            <i class="fas fa-arrow-left back-btn" onclick="window.history.back()"></i>
+            Notifications
+            <span class="badge" id="notification-count">10</span>
+        </div>
+
+        <!-- Mark all as read -->
+        <button class="mark-read-btn" onclick="markAllAsRead()">Mark All as Read</button>
+
+        <!-- Notifications -->
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <div class="notification-item" data-id="1">
+            <img src="https://via.placeholder.com/50" alt="User" class="avatar">
+            <div class="notification-info">
+                <div class="name">kalyan</div>
+                <div class="message">liked your post</div>
+                <div class="time">2m ago</div>
+            </div>
+            <div class="actions">
+                <span class="action-btn" onclick="removeNotification(this, 'kalyan')">&#10006;</span>
+                <span class="action-btn" onclick="muteNotification(this, 'kalyan')">&#128263;</span>
+            </div>
+        </div>
+        <!-- Repeat similar items -->
+    </div>
+
+    <div class="snackbar" id="snackbar">Notification removed</div>
+    <nav class="menu">
+        <div class="menu-item" >
+          <i class="fas fa-home" onclick="window.location.href='{% url 'loginsuccess' %}'"></i> Home
+        </div>
+        <div class="menu-item">
+          <i class="fas fa-search" onclick="window.location.href='{% url 'search' %}'"></i> Search
+        </div>
+        <div class="menu-item">
+          <i class="fas fa-bell" onclick="window.location.href='{% url 'notifications' %}'"></i> Notifications
+        </div>
+        <div class="menu-item">
+          <i class="fas fa-user" onclick="window.location.href='{% url 'profile' %}'"></i> Profile
+        </div>
+      </nav>
+
+    <script>
+        let lastRemoved = null;
+
+        function removeNotification(element, user) {
+            const item = element.closest('.notification-item');
+            lastRemoved = item.cloneNode(true);
+            item.remove();
+            updateBadgeCount();
+            showSnackbar(`${user}'s notification removed. <button onclick="undoDelete()">Undo</button>`);
+        }
+
+        function undoDelete() {
+            if (lastRemoved) {
+                document.getElementById('notification-container').appendChild(lastRemoved);
+                lastRemoved = null;
+                updateBadgeCount();
+            }
+        }
+
+        function muteNotification(element, user) {
+            const item = element.closest('.notification-item');
+            item.classList.add('muted');
+            showSnackbar(`${user} muted. No further notifications.`);
+        }
+
+        function markAllAsRead() {
+            const notifications = document.querySelectorAll('.notification-item');
+            notifications.forEach(item => item.classList.add('muted'));
+            showSnackbar('All notifications marked as read');
+        }
+
+        function updateBadgeCount() {
+            const count = document.querySelectorAll('.notification-item:not(.muted)').length;
+            document.getElementById('notification-count').textContent = count;
+        }
+
+        function showSnackbar(message) {
+            const snackbar = document.getElementById('snackbar');
+            snackbar.innerHTML = message;
+            snackbar.classList.add('show');
+            setTimeout(() => snackbar.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

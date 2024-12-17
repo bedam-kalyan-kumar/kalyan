@@ -1,0 +1,64 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPRINT</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body id="kk">
+    <form method="POST" action="{% url 'loginsuccess' %}">
+        {% csrf_token %}
+        <div class="kk">
+            <h2>SPRINT</h2><br><br><br><br>
+            <span class="material-icons icon" id="lightIcon" onclick="toggleLight()">lightbulb</span>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username1" required minlength="8"><br><br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password1" required minlength="8">
+            <span class="material-icons" id="visibility" onclick="visibility1()">visibility_off</span><br>
+            <input type="checkbox" name="check">
+            <label for="check">Remember me</label><br><br><br>
+            <button type="submit" id="button">Login</button><br><br>
+            {% if error %}
+                <p style="color: red;">{{ error }}</p> 
+            {% endif %}
+            <footer>
+                <a href="{% url 'forget' %}">Forget password</a>
+            </footer><br><br>
+            Not registered yet? <a href="{% url 'register' %}">Register account</a>
+            
+        </div>
+    </form>
+
+    <style>
+        body { margin-top: 100px; margin-left: 450px; border: 2px solid black; width: 400px; height: 500px; border-radius: 50px; background-color: black; }
+        div { text-align: center; }
+        span { cursor: pointer; margin-left: 5px; }
+        label[for="password"] { margin-left: 40px; }
+        input[type="checkbox"] { margin-top: 15px; }
+        #lightIcon { color: white; }
+        h2 { background: red; border-radius: 50px; }
+    </style>
+
+    <script>
+        function visibility1() {
+            const eye = document.getElementById('password1');
+            const eyeon = document.getElementById('visibility');
+            if (eye.type === "password") {
+                eye.type = "text";
+                eyeon.textContent = "visibility";
+            } else {
+                eye.type = "password";
+                eyeon.textContent = "visibility_off";
+            }
+        }
+
+        function toggleLight() {
+            const k = document.getElementById('kk');
+            k.style.backgroundColor = "white";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        /* Center the form on the page */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            background-color: #4a90e2;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #357abd;
+        }
+
+        p {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        p[style="color:red;"] {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        h3{
+            text-align: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+        <h3>REGISTER</h3>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="enter username" required minlength="8">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"  placeholder="enter password" required minlength="8">
+        <br>
+        <label for="gmail">gmail</label>
+        <input type="email" id="gmail" name="gmail" placeholder="Enter email">
+        <button type="submit">Register</button>
+    </form>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
